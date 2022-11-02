@@ -15,8 +15,13 @@
             const userinfoEl = document.getElementById('userinfo');
             try {
                 const response = await fetch("/oauth2/userinfo");
-                const userinfo = await response.json();
-                userinfoEl.innerText = `Logged in as ${userinfo.user} (${userinfo.email})`;
+                if (response.ok) {
+                    const userinfo = await response.json();
+                    userinfoEl.innerText = `Logged in as ${userinfo.user} (${userinfo.email})`;
+                } else {
+                    const errorText = await response.text();
+                    userinfoEl.innerText = `ERROR: Failed to get userinfo: status-code=${response.status} error=${errorText}`;
+                }
             } catch (e) {
                 userinfoEl.innerText = `ERROR: Failed to get userinfo: ${e}`;
             }
