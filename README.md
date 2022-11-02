@@ -39,6 +39,7 @@ export OAUTH2_PROXY_COOKIE_SECRET="$(openssl rand -hex 16)"
     --http-address=:4180 \
     --redirect-url=http://example.test:4180/oauth2/callback \
     --cookie-secure=false \
+    --cookie-samesite=strict \
     --upstream="file:///$(cygpath --windows "$PWD" | tr \\\\ /)/#/"
 ```
 
