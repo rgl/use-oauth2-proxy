@@ -30,7 +30,7 @@ wget https://github.com/oauth2-proxy/oauth2-proxy/releases/download/v7.4.0/oauth
 tar xf oauth2-proxy-v7.4.0.windows-amd64.tar.gz --strip-components 1
 ```
 
-Execute `oauth2-proxy`:
+Start the `oauth2-proxy` service:
 
 ```bash
 export OAUTH2_PROXY_COOKIE_SECRET="$(openssl rand -hex 16)"
@@ -40,7 +40,16 @@ export OAUTH2_PROXY_COOKIE_SECRET="$(openssl rand -hex 16)"
     --redirect-url=http://example.test:4180/oauth2/callback \
     --cookie-secure=false \
     --cookie-samesite=strict \
+    --upstream=http://localhost:4181/example \
     --upstream="file:///$(cygpath --windows "$PWD" | tr \\\\ /)/#/"
+```
+
+In another shell, build and start the example service:
+
+```bash
+cd example
+go build
+./example -listen 127.0.0.1:4181
 ```
 
 Access the root endpoint:
