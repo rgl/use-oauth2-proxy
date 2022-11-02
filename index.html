@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>use-oauth2-proxy</title>
+</head>
+<body>
+    <div id="userinfo"></div>
+    <h1>endpoints</h1>
+    <ul>
+        <li><a href="/oauth2/userinfo">/oauth2/userinfo</a></li>
+        <li><a href="/oauth2/sign_out">/oauth2/sign_out</a></li>
+    </ul>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const userinfoEl = document.getElementById('userinfo');
+            try {
+                const response = await fetch("/oauth2/userinfo");
+                const userinfo = await response.json();
+                userinfoEl.innerText = `Logged in as ${userinfo.user} (${userinfo.email})`;
+            } catch (e) {
+                userinfoEl.innerText = `ERROR: Failed to get userinfo: ${e}`;
+            }
+        });
+    </script>
+</body>
+</html>
